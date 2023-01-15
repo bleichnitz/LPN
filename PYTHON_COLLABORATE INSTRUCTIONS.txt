@@ -1,0 +1,32 @@
+1. PyCharm > Settings
+    Version Control
+        GitHub: use the add feature to include your GitHub account - need user email / ID and pswd
+
+2. GitHub Project Repository URL: https://github.com/bleichnitz/LPN
+
+3. On Startup Window with projects, select New Project from VCS.
+    Since you have previously loged in you should see the project names available to you on GitHub.
+    Looking for "LPN" >>> short for Learning Progression Notebook.
+
+4. Once the files load, create a localized interpreter and virtual environment.
+    > bottom R of screen in status bar you should see the row/char count, line separator mode, UTF-8, indent
+    configuration set to 4 spaces and then the INTERPRETER space followed by the git branch
+    > interpreter likely to say something like "<<no interpreter>>"
+    > select to add new interpreter
+    > select python version to current Python 3.11 (updated 2023-01-15)
+
+5. Add python modules via the terminal.
+    See the "PYTHON_PKG_LIST.txt" for all modules added to the project.
+
+6. Create your run configurations for this computer.
+    > top R of menu bar
+    > look for the Python symbol w/dropdown button
+    > create new configuration
+
+7. In the main.py insert the directory for the computer you are currently working on into the CMD_LINE function
+to test the program.
+    NOTE: this will need to be changed for each time you pull updated code as the last person update the
+    program will have the directory set to their personal machine.
+
+
+

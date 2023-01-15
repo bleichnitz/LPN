@@ -1,0 +1,10 @@
+The following python packages have been installed:
+
+- statistics: pip3 install statistics
+- python-docx: pip3 install python-docx
+- PyPDF4: pip3 install PyPDF4
+- Pillow: pip3 install Pillow
+- openpyxl: pip3 install openpyxl
+- matplotlib: pip3 install matplotlib
+    *also installs numpy
+- docx2pdf: pip3 install docx2pdf

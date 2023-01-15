@@ -22,13 +22,13 @@ def print_hr():
     return 0
 
 
-def cmd_line():
+def cmd_line(root_directory):
     # confirm that the root directory is correct; lists files and sub_folders
     print_hr()
     print(f"Run Time: {today_date()}  {current_time()}")
     print_hr()
     # TODO: create config file for root directory work
-    root_directory = "/Users/work/OneDrive - Peel District School Board/OneDrive Desktop/GradeBook V4"
+
     root_directory = list_files_in_root_directory(root_directory)
     print_hr()
 
