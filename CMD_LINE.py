@@ -1,5 +1,5 @@
 from _date_time import today_date, current_time
-from _file_directory import list_files_in_root_directory, create_new_class, create_class_sub_folder, \
+from _file_directory import list_files_in_root_directory, create_new_class, \
     open_class, create_subfolder
 from _clean_data import class_data_set
 from _sort_data import sort_class_data
@@ -11,7 +11,7 @@ from __DOCS_settings import section_labels
 from __DOCS_summary_sheet import create_midterm_summaries
 from __DOCS_missing_work import missing_work_summaries
 from __DOCS_create_graph import create_graph
-from __DOCS_final_eval_questions import final_eval_question_doc, final_evaluation_questions
+from __DOCS_final_eval_questions import final_evaluation_questions
 
 
 def print_hr():
@@ -42,7 +42,6 @@ def cmd_line(root_directory):
         print("")
         if ua == 1:
             # create new class
-            valid_entry = True
             create_new_class(directory=root_directory["directory"])
             return 0
         elif ua == 2:
@@ -60,8 +59,8 @@ def cmd_line(root_directory):
     student_list = cleaned_data["class list"]
     assessment_data = cleaned_data["assessment data"]
     standards_data = cleaned_data["standards data"]
-    num_olg = cleaned_data["number of olg"]
-    num_sc = cleaned_data["number of sc"]
+    # num_olg = cleaned_data["number of olg"]
+    # num_sc = cleaned_data["number of sc"]
     olg_codes = cleaned_data["olg codes"]
     sc_codes = cleaned_data["sc codes"]
     teacher_info = cleaned_data["teacher info"]
@@ -71,11 +70,11 @@ def cmd_line(root_directory):
                                 conversion_type="letter_to_number")
     filter_criteria = choose_filter_type()
 
-    alpha_filtered_data = filtering_data(filter_type=filter_criteria,
-                                         data_to_filter=assessment_data,
-                                         olg_codes=olg_codes,
-                                         sc_codes=sc_codes,
-                                         alpha_numeric="alpha")
+    # alpha_filtered_data = filtering_data(filter_type=filter_criteria,
+    #                                      data_to_filter=assessment_data,
+    #                                      olg_codes=olg_codes,
+    #                                      sc_codes=sc_codes,
+    #                                      alpha_numeric="alpha")
 
     numeric_filtered_data = filtering_data(filter_type=filter_criteria,
                                            data_to_filter=numeric_data,
@@ -98,14 +97,16 @@ def cmd_line(root_directory):
                                          num_criteria=len(numeric_filtered_data),
                                          data_to_analyze=numeric_filtered_data)
 
-    criteria_achievements = achievements["Criteria Achievement"]
+    # criteria_achievements = achievements["Criteria Achievement"]
     cascading_achievements = achievements["Cascading Achievement"]
 
-    highest_category_achievements = determine_high_achievements(num_students=len(student_list),
-                                                                student_list=student_list,
-                                                                data_to_analyze=cascading_achievements,
-                                                                data_for_activity_count=numeric_filtered_data,
-                                                                frequency_requirements=criteria_frequency)
+    performance_data = determine_high_achievements(student_list=student_list,
+                                                   data_to_analyze=cascading_achievements,
+                                                   data_for_activity_count=numeric_filtered_data,
+                                                   frequency_requirements=criteria_frequency)
+
+    highest_category_achievements = performance_data["High Achievements"]
+    performance_consistency = performance_data["Consistency"]
 
     achievement_status = achievement_category_status(student_data=highest_category_achievements,
                                                      targets=learning_targets,
@@ -171,6 +172,7 @@ def cmd_line(root_directory):
                                              learning_targets=learning_targets,
                                              highest_achievements=highest_category_achievements,
                                              achievement_status=achievement_status,
+                                             performance_consistency=performance_consistency,
                                              include_graph=graph_choice,
                                              teacher_info=teacher_info,
                                              save_directory=created_doc_folder,
@@ -186,6 +188,7 @@ def cmd_line(root_directory):
                                              learning_targets=learning_targets,
                                              highest_achievements=highest_category_achievements,
                                              achievement_status=achievement_status,
+                                             performance_consistency=performance_consistency,
                                              include_graph=graph_choice,
                                              teacher_info=teacher_info,
                                              save_directory=created_doc_folder,
@@ -204,6 +207,7 @@ def cmd_line(root_directory):
                         create_graph(filter_type=filter_criteria,
                                      targets=learning_targets,
                                      achievement=highest_category_achievements[student],
+                                     consistency=performance_consistency[student],
                                      goal_labels=x_axis,
                                      f_name=student_list[student][0],
                                      l_name=student_list[student][1],
@@ -216,12 +220,11 @@ def cmd_line(root_directory):
                                                teacher_info=teacher_info,
                                                achievement_data=highest_category_achievements,
                                                standards_data=standards_data,
-                                               olg_codes=sc_codes,
-                                               sc_codes=sc_codes,
                                                save_directory=created_doc_folder,
                                                root_directory=root_directory["directory"])
 
     print("")
+    print("END PROGRAM")
     print("")
 
     return 0

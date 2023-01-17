@@ -1,19 +1,20 @@
-from __DOCS_settings import section_labels, unpack_goal_array, merge_files
-from _filter_data import filtering_data
+from __DOCS_settings import merge_files
 from _clean_data import final_eval_question_doc
 from docx import Document
-from docx.shared import Inches, Pt
+from docx.shared import Inches
 from docx2pdf import convert
 from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
 
 
-def set_cell_colour(table, row, col, colour):
-    cell_xml_element = table.rows[row].cells[col]._tc
+def set_cell_colour(fe_table, row, col, colour):
+    cell_xml_element = fe_table.rows[row].cells[col]._tc
     table_cell_property = cell_xml_element.get_or_add_tcPr()
     shading_object = OxmlElement('w:shd')
     shading_object.set(qn('w:fill'), colour)
     table_cell_property.append(shading_object)
+    return 0
+
 
 def set_column_width(table):
     widths = (Inches(1.25), Inches(6.25))
@@ -23,16 +24,16 @@ def set_column_width(table):
     return 0
 
 
-def question_table(doc, proficieny_q, comprehensive_q, exemplary_q, achievement):
+def question_table(doc, proficiency_q, comprehensive_q, exemplary_q, achievement):
     table = doc.add_table(rows=3, cols=2)
     set_column_width(table=table)
     header_text = ["Proficient", "Comprehensive", "Exemplary"]
     header_colours = ["#6be375", "#8a9ac2", "#7388bd"]
-    questions = [proficieny_q, comprehensive_q, exemplary_q]
-    completed_text = "-- COMPLETED --"
+    questions = [proficiency_q, comprehensive_q, exemplary_q]
     for row in range(0, len(header_text)):
-        cell = table.rows[row].cells[0].paragraphs[0].add_run(header_text[row])
-        set_cell_colour(table=table,
+        # creates header text in cells
+        table.rows[row].cells[0].paragraphs[0].add_run(header_text[row])
+        set_cell_colour(fe_table=table,
                         row=row,
                         col=0,
                         colour=header_colours[row])
@@ -40,41 +41,29 @@ def question_table(doc, proficieny_q, comprehensive_q, exemplary_q, achievement)
         q_cell = table.rows[row].cells[1].paragraphs[0].add_run(questions[row])
         q_cell.italic = True
         if achievement < 3:
-            set_cell_colour(table=table, row=0, col=1, colour="#e6e3e3")
+            set_cell_colour(fe_table=table, row=0, col=1, colour="#e6e3e3")
         elif achievement < 4:
-            set_cell_colour(table=table, row=1, col=1, colour="#e6e3e3")
+            set_cell_colour(fe_table=table, row=1, col=1, colour="#e6e3e3")
         elif achievement <= 5:
-            set_cell_colour(table=table, row=2, col=1, colour="#e6e3e3")
-
-
+            set_cell_colour(fe_table=table, row=2, col=1, colour="#e6e3e3")
 
     return table
 
 
-def final_evaluation_questions(num_students, student_list, teacher_info, achievement_data, standards_data, olg_codes, sc_codes,
+def final_evaluation_questions(num_students, student_list, teacher_info, achievement_data, standards_data,
                                save_directory, root_directory):
 
     question_bank = final_eval_question_doc(root_directory)
     print(question_bank)
     print(len(question_bank))
 
-    labels = section_labels(filter_type="SC",
-                            olgs_sc_data_set=standards_data)
-
-    category_label = labels["Category Names"]
-    sub_catgory_label = labels["Sub-Category Names"]
-    category_descriptions = labels["Category Descriptions"]
-
     teacher_name = teacher_info["Teacher Name"]
     course_code = teacher_info["Course Code + Section"]
-    course_name = teacher_info["Course Name"]
     school = teacher_info["School"]
-    course_header = f"{course_code} - {course_name} \t {teacher_name}, {school}"
 
     num_tasks_to_complete = input(f"How many of the FE prompts are required by the student two complete?     ")
 
-
-    for student in range (0, num_students):
+    for student in range(0, num_students):
         f_name = student_list[student][0]
         l_name = student_list[student][1]
         student_num = student_list[student][2]
@@ -99,15 +88,15 @@ def final_evaluation_questions(num_students, student_list, teacher_info, achieve
 
         document.add_paragraph(
             f"For the Final Evaluation (FE), you are to complete at LEAST {num_tasks_to_complete} of the questions or "
-            "prompts that are listed below. You MUST complete at them from different Overarching Learning Goal categories . "
-            "The remaining prompt is entirely of your choosing. Of course, you can choose to complete more than the "
-            "required number of prompts to demonstrate a more thorough and complete understanding of the course "
-            "learning goals. Based on your learning achievement from throughout the semester, a question has been "
-            "suggested for you (see the question/prompt that is highlighted in grey).")
+            "prompts that are listed below. You MUST complete at them from different Overarching "
+            "Learning Goal categories . The remaining prompt is entirely of your choosing. Of course, you "
+            "can choose to complete more than the required number of prompts to demonstrate a more thorough and "
+            "complete understanding of the course learning goals. Based on your learning achievement from "
+            "throughout the semester, a question has been suggested for you (see the question/prompt that is "
+            "highlighted in grey).")
         document.add_paragraph("")
 
-        counter = 0
-        fe_question_categories = int(round(len(question_bank) / 3,0))
+        fe_question_categories = int(round(len(question_bank) / 3, 0))
 
         print("\n\n\n\n")
         print(f"Number of FE Question Categories: {fe_question_categories}")
@@ -115,22 +104,22 @@ def final_evaluation_questions(num_students, student_list, teacher_info, achieve
         print(file_name)
         for category in range(0, fe_question_categories):
             print(question_bank[category*3][0])
-            document.add_heading(question_bank[category*3][0],1)
+            document.add_heading(question_bank[category*3][0], 1)
             p = document.add_paragraph()
             standards_sc_code = question_bank[category*3][5]
             criteria_description = find_sc_description(sc_code=standards_sc_code,
                                                        standards_data=standards_data)
             p.add_run(criteria_description).italics = True
-            document.add_paragraph
-            prof_q = question_bank[category*3][2]
-            comp_q = question_bank[category * 3 + 1][2]
-            exem_q = question_bank[category * 3+ 2][2]
+            document.add_paragraph()
+            proficiency_question = question_bank[category*3][2]
+            comprehensive_question = question_bank[category * 3 + 1][2]
+            exemplary_question = question_bank[category * 3 + 2][2]
             achieve = achievement_data[student][category]
 
             question_table(doc=document,
-                           proficieny_q=prof_q,
-                           comprehensive_q=comp_q,
-                           exemplary_q=exem_q,
+                           proficiency_q=proficiency_question,
+                           comprehensive_q=comprehensive_question,
+                           exemplary_q=exemplary_question,
                            achievement=achieve)
 
         document.save(student_file_path)

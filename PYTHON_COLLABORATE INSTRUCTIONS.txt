@@ -5,7 +5,7 @@
 2. GitHub Project Repository URL: https://github.com/bleichnitz/LPN
 
 3. On Startup Window with projects, select New Project from VCS.
-    Since you have previously loged in you should see the project names available to you on GitHub.
+    Since you have previously logged in you should see the project names available to you on GitHub.
     Looking for "LPN" >>> short for Learning Progression Notebook.
 
 4. Once the files load, create a localized interpreter and virtual environment.

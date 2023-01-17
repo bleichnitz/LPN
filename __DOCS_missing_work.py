@@ -1,5 +1,4 @@
 from docx import Document
-from docx.shared import Inches, Pt
 from docx2pdf import convert
 from __DOCS_settings import merge_files, set_column_width
 from _filter_data import value_conversion
@@ -8,21 +7,16 @@ from _filter_data import value_conversion
 def missing_work_summaries(num_students, student_info, raw_data, teacher_info, save_directory, root_directory):
     teacher_name = teacher_info["Teacher Name"]
     course_code = teacher_info["Course Code + Section"]
-    course_name = teacher_info["Course Name"]
     school = teacher_info["School"]
-    course_header = f"{course_code} - {course_name} \t {teacher_name}, {school}"
 
-    for student in range (0, num_students):
-        #student info
+    for student in range(0, num_students):
+        # student info
         f_name = student_info[student][0]
         l_name = student_info[student][1]
         student_number = student_info[student][2]
-        student_email = student_info[student][3]
-        caregiver_emial = student_info[student][4]
-        student_header = f"{l_name}, {f_name} ({student_number})"
 
         # create save parameters
-        student_file_name = f"{l_name}, {f_name} ({student_number}).docx"
+        student_file_name = f"{l_name}, {f_name} ({student_number}) -- MISSING WORK LIST.docx"
         student_file_path = f"{save_directory}/{student_file_name}"
 
         # doc and page set up
@@ -39,16 +33,16 @@ def missing_work_summaries(num_students, student_info, raw_data, teacher_info, s
         header_text = f"{l_name}, {f_name} ({student_number})\t {school} {course_code} - {teacher_name}"
         document.add_heading(header_text, 2)
         document.add_heading("Missed Assessment Summary", 0)
-        p = document.add_paragraph("Over the course of the semester it is normal to be behind on some work. This summary "
-                                   "sheet lists the current learning activities that are currently listed as incomplete "
-                                   "in your teacher's assessment tracking. It is important that we work together in "
-                                   "order to identify the most essential learning activities that need to be handed in "
-                                   "to demonstrate proficiency of the learning goals in this course. Activities that "
-                                   "are highlighted are to be prioritized.")
+        document.add_paragraph("Over the course of the semester it is normal to be behind on some work. This summary "
+                               "sheet lists the current learning activities that are currently listed as incomplete "
+                               "in your teacher's assessment tracking. It is important that we work together in "
+                               "order to identify the most essential learning activities that need to be handed in "
+                               "to demonstrate proficiency of the learning goals in this course. Activities that "
+                               "are highlighted are to be prioritized.")
         p = document.add_paragraph("")
         p.add_run("Deadline for work to be submitted to be included in the next reporting cycle:").italic = True
         p.add_run("_____________________________________.")
-        p = document.add_paragraph()
+        document.add_paragraph()
 
         table_header = ["Learning Activity", "Look For", "Target", "Achievement"]
         table = document.add_table(rows=1, cols=4)
@@ -61,8 +55,7 @@ def missing_work_summaries(num_students, student_info, raw_data, teacher_info, s
         student_index = 7 + student
         for activity in range(0, len(raw_data)):
             achievement = raw_data[activity][student_index]
-            task_status = include_task(achievement)
-            if achievement == 0 or achievement == 0.5:  #incomplete, vacation, absent, retry
+            if achievement == 0 or achievement == 0.5:  # incomplete, vacation, absent, retry
                 learning_activity = str(raw_data[activity][1])
                 look_for = str(raw_data[activity][4])
                 target = str(value_conversion(val=raw_data[activity][5],
@@ -77,11 +70,11 @@ def missing_work_summaries(num_students, student_info, raw_data, teacher_info, s
                 cells[3].text = print_achievement
                 set_column_width(table=table)
                 incomplete_counter += 1
-            activity_counter +=1
+            activity_counter += 1
 
         if incomplete_counter < 5:
-            for r in range (0, 5-incomplete_counter):
-                cells = table.add_row().cells
+            for r in range(0, 5-incomplete_counter):
+                table.add_row().cells
 
         document.add_paragraph("")
         p = document.add_paragraph("You have ")
@@ -92,16 +85,13 @@ def missing_work_summaries(num_students, student_info, raw_data, teacher_info, s
                   "makes it very difficult to determine an accurate grade at the end of the semester.")
 
         document.save(str(student_file_path))
-        print("")
 
     convert(input_path=save_directory)
     merge_files(root_directory=root_directory,
-                output_name="*** Missing Work MERGED PDF FILE ***",
+                output_name="--- Missing Work MERGED PDF FILE ---",
                 save_location=save_directory)
 
     print("\t\t MISSING WORK SUMMARIES CREATED SUCCESSFULLY")
-
-
 
 
 def include_task(task):

@@ -1,14 +1,20 @@
 from pathlib import Path
 import shutil as shutil
 
+
 def list_files_in_root_directory(directory):
     """
     LIST FILES IN ROOT DIRECTORY
     :param directory:
     :return: directory_contents ([0] = root directory [1] = files [2] = folders
     """
+
+    directory_contents = {"directory": "",
+                          "files": "",
+                          "sub directories": ""
+                          }
+
     root_directory = ""
-    rd_confirmation = ""
     valid_path = False
     while valid_path is False:
         rd_confirmation = input(f"Confirm root directory: <<{directory}>> (Y/N): \t")
@@ -36,9 +42,14 @@ def list_files_in_root_directory(directory):
                 if item.is_dir():
                     sub_folders.append(item.name)
                     print(f"\t\t{item.name}")
-            directory_contents = {"directory":root_directory,
-                                  "files":files,
-                                  "sub directories":sub_folders
+            directory_contents = {"directory": root_directory,
+                                  "files": files,
+                                  "sub directories": sub_folders
+                                  }
+        else:
+            directory_contents = {"directory": "",
+                                  "files": "",
+                                  "sub directories": ""
                                   }
     return directory_contents
 
@@ -52,7 +63,7 @@ def create_new_class(directory):
     :return: the path to the new file
     """
     directory = f"{directory}"
-    print ("\n Create new class:")
+    print("\n Create new class:")
     course_code = input(f"\t\tCourse Code: \t")
     period = input(f"\t\tPeriod: \t")
     teacher = input(f"\t\tTeacher: \t")
@@ -108,13 +119,13 @@ def open_class(directory):
     for item in Path(selected_class_workbook_path).iterdir():
         if item.is_file():
             files.append(item.name)
-            #print(f"\t\t\tFile: {item.name}")
+            # print(f"\t\t\tFile: {item.name}")
     for item in Path(selected_class_workbook_path).iterdir():
         if item.is_dir():
             folders.append(item.name)
-            #print(f"\t\t\tFolder: {item.name}")
+            # print(f"\t\t\tFolder: {item.name}")
     file_path = f"{selected_class_workbook_path}/{classes[selection-1]} Gradebook.xlsx"
-    #print(f"\t\t\tPath: {file_path}")
+    # print(f"\t\t\tPath: {file_path}")
     # TODO: open file with openpyxl
     # TODO: extract student list data
     # TODO: clean student list data
@@ -124,12 +135,6 @@ def open_class(directory):
 
 
 def create_subfolder(course_file_path, new_subfolder_name):
-    """
-    CREATE SUB-FOLDERS within class sub-directories
-    :param class_directory:
-    :param new_subfolder_name:
-    :return:
-    """
 
     file = Path(course_file_path)
     course_save_folder = file.parent

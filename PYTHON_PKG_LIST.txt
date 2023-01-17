@@ -8,3 +8,4 @@ The following python packages have been installed:
 - matplotlib: pip3 install matplotlib
     *also installs numpy
 - docx2pdf: pip3 install docx2pdf
+- yaml: 

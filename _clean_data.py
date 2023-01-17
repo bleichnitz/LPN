@@ -1,5 +1,4 @@
 import openpyxl as openpyxl
-from openpyxl.styles import Alignment
 import warnings as warnings
 from pathlib import Path
 from operator import itemgetter
@@ -18,10 +17,7 @@ def load_file(full_file_path):
     :param full_file_path: file path to document to open
     :return: opened workbook
     """
-    file_path = Path(str(full_file_path))
-    file_name = file_path.name
     warnings.simplefilter(action='ignore', category=UserWarning)
-    # print(f"\t\tFile <{str(file_name)}> has loaded successfully.")
     return openpyxl.load_workbook(full_file_path, data_only=True)
 
 
@@ -59,7 +55,6 @@ def class_data_set(file_path):
     for row in standards_sheet.values:
         if row[0] is not None:
             standards_data.append(row)
-    #standards_data.pop(0)
 
     previous_olg = ""
     previous_sc = ""
@@ -84,16 +79,16 @@ def class_data_set(file_path):
     teacher_info_sheet = wb["Teacher_Info"]
     teacher_info = {}
     for row in teacher_info_sheet.values:
-        teacher_info[row[0]]=row[1]
+        teacher_info[row[0]] = row[1]
 
-    data = {"class list":class_list,                    # array
-            "assessment data":assessment_data,          # array
-            "standards data":standards_data,            # array
-            "number of olg":num_olg,                    # int
-            "number of sc":num_sc,                      # int
-            "olg codes":olg_codes,                      # array
-            "sc codes":sc_codes,                        # array
-            "teacher info":teacher_info                 # dictionary
+    data = {"class list": class_list,                    # array
+            "assessment data": assessment_data,          # array
+            "standards data": standards_data,            # array
+            "number of olg": num_olg,                    # int
+            "number of sc": num_sc,                      # int
+            "olg codes": olg_codes,                      # array
+            "sc codes": sc_codes,                        # array
+            "teacher info": teacher_info                 # dictionary
             }
 
     return data
@@ -106,7 +101,7 @@ def final_eval_question_doc(root_directory):
     print("")
     print("Final Evaluation Question Bank")
     print(">> Which question bank are you accessing?")
-    for c in range (0, len(courses)):
+    for c in range(0, len(courses)):
         print(f"\t {c+1}) {courses[c]}")
     valid_entry = False
     while valid_entry is False:
@@ -121,14 +116,6 @@ def final_eval_question_doc(root_directory):
     question_bank = []
     for row in course_sheet.values:
         if row[0] is not None:
-            question_data = []
-            #for col in range(0, 6):
-            #    question_data.append(row[col])
             question_bank.append(row)
-    #question_bank.pop(0)  # remove header row so all that remains is raw data
 
     return question_bank
-
-
-
-
