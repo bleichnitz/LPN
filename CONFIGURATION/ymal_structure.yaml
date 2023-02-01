@@ -1,0 +1,32 @@
+# can comment using hashtag
+
+object:                   # ends with a colon, object data is listed below by indendent; all indents must be same
+  string: Brian           # strings can be created without quotes or with "" or ''; if special chars (e.g. \n) use quote
+  integer: 1000
+  float: 1.75
+  boolean: true
+  boolean: yes
+  boolean: on
+  my_list:                # there are two ways to create lists
+    - item1: 1100
+    - item2: 1234
+  my_list2: [1.7, 1.8, 1.9, 2.0]
+  multiline_string1: |
+    this is a multiline
+    string that has
+    more than 1 line
+  multline_string2: >
+    this multiline string has separate lines
+    in the yaml file itself, but when the file is
+    processed it will be read
+    as one contniuous line of data
+  variables: ''
+
+object_list:
+  - object1:
+      part1: 123
+      part2: 234
+  - object2:
+      part1: 235
+      part2: 125
+

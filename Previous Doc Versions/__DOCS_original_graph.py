@@ -6,8 +6,6 @@ import statistics as stats
 
 from __DOCS_settings import unpack_goal_array
 
-from __DOCS_settings import section_labels
-
 
 def achievement_differential(max, min):
     differential_table = [[0, 0.00],

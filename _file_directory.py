@@ -1,6 +1,14 @@
 from pathlib import Path
 import shutil as shutil
 
+import openpyxl as openpyxl
+from _clean_data import load_file
+import base64
+import yaml
+
+from _date_time import school_year
+
+
 
 def list_files_in_root_directory(directory):
     """
@@ -65,14 +73,57 @@ def create_new_class(directory):
     directory = f"{directory}"
     print("\n Create new class:")
     course_code = input(f"\t\tCourse Code: \t")
+    course_section = input(f"\t\tSection: \t")
+    semester = input(f"\t\t{school_year()} Semester (1 or 2): \t")
+    course_name = input(f"\t\tCourse Name: \t")
+    school = input(f"\t\tSchool: \t")
     period = input(f"\t\tPeriod: \t")
     teacher = input(f"\t\tTeacher: \t")
-    sub_directory_name = f"{course_code} - Period {period} ({teacher})"
+    teacher_email = input(f"\t\tTeacher Email: \t")
+    email_pswd = input(f"\t\tEmail Password: \t")
+    encoded_pswd = base64.b64encode(email_pswd.encode("utf-8"))
+    #decoded_pswd =  base64.b64decode(encoded_pswd).decode("utf-8")
+    two_factor_email_pswd = input(f"\t\t2 Factor Authentication: \t")
+
+
+    sub_directory_name = f"{school_year()} Semester {semester}  {course_code} - Period {period} ({teacher})"
     new_directory = create_class_sub_folder(directory=directory,
                                             sub_directory_name=sub_directory_name)
     src_file = str(f"{directory}/_templates/work_book_template.xlsx")
     dst_file = str(f"{new_directory}/{sub_directory_name} Gradebook.xlsx")
     new_file = shutil.copyfile(src=str(src_file), dst=str(dst_file))
+
+
+
+    new_config_file = f"{new_directory}/{course_code}{course_section}_configuration.yaml"
+    config_data = {
+        "COURSE CONFIGURATION": {
+            "course_code": f"{course_code}{course_section}",
+            "course_name": course_name,
+            "email_password": encoded_pswd,
+            "email_2factor_password": two_factor_email_pswd,
+            "period": period,
+            "school": school,
+            "teacher": teacher,
+            "teacher_email": teacher_email
+        },
+        "STANDARDS": {
+            "olg_codes": "",
+            "olg_descriptions": "",
+            "sc_codes": "",
+            "sc_descriptions": ""
+        },
+        "ACHIEVEMENT_FREQUENCY": {
+            "default": [],
+            "set_frequency": []
+        }
+    }
+
+    with open(new_config_file,'w') as file:
+        yaml.dump(config_data, file)
+
+
+
     # TODO: open standards workbook
     # TODO: list all the sheets that have standards data
     # TODO: user selects data

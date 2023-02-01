@@ -1,0 +1,2 @@
+Encode / Decode Strings (e.g. pswds):
+    -https://www.geeksforgeeks.org/how-to-encrypt-and-decrypt-strings-in-python/

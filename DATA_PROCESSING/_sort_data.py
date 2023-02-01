@@ -8,16 +8,8 @@ NUM_CLASS_LIST_COLS = 11
 NUM_ACTIVITY_HEADER_COLS = 7
 NUM_MAX_STUDENTS = 32
 
+
 def sort_class_data(sort_method, file_path, class_list, assessment_data):
-    """
-    Takes clean_sort method variable input by user to determine how to clean_sort organize the spreadsheet data; the user can switch
-    between alphabetical order by last name and their Google ID (which is also their first name). Data is cleared from
-    the spreadsheet and re-written based on the clean_sort method selected.
-    :param sort_method: numeric input (1/2) for last name v. Google ID
-    :param data: brings in data from appropriate document and respective class list sheet and assessment data sheet
-    :param file_path: path to where the file is located
-    :return: sorted data based on last name or Google ID / first name in array format
-    """
 
     # open Excel File and assign sheets to variables
     wb = load_file(full_file_path=file_path)
@@ -25,8 +17,8 @@ def sort_class_data(sort_method, file_path, class_list, assessment_data):
     profile_sheet = wb["Student_List"]
 
     # assign data to specific recognizable variables
-    #class_list = data["class list"]
-    #assessment_data = data["assessment data"]
+    # class_list = data["class list"]
+    # assessment_data = data["assessment data"]
 
     # combine the student list and assessment data sheet data into a single array to perform clean_sort
     combined_data_sets = []

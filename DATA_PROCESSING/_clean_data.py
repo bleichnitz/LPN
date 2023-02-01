@@ -3,6 +3,10 @@ import warnings as warnings
 from pathlib import Path
 from operator import itemgetter
 
+import yaml
+
+from configuration import find_config_file
+
 # constants used throughout data cleaning
 NUM_CLASS_LIST_COLS = 11
 NUM_ACTIVITY_HEADER_COLS = 7
@@ -13,7 +17,7 @@ def load_file(full_file_path):
     """ Load data from an Excel file. NOTE: the load typically throws this error "UserWarning: Data Validation
     extension is not supported and will be removed warn(msg)", as openpyxl does not support data validation
     (see dropdown OLG and SC columns on 'Tracking Sheet') but should NOT affect overall functioning of this program.
-    The 'warnings' module removes the warning from printing in the turn terminal to minimize confusion.
+    The 'warnings' module removes the warning from printing in the terminal to minimize confusion.
     :param full_file_path: file path to document to open
     :return: opened workbook
     """
@@ -29,6 +33,10 @@ def class_data_set(file_path):
     :param file_path: file path to find tracking document
     :return: data[0] = class_list, data[1] = assessment data
     """
+
+    dir_path = Path(file_path)
+    dir_path = dir_path.parent
+
     wb = load_file(full_file_path=file_path)
     profile_sheet = wb["Student_List"]
     class_list = []
@@ -75,6 +83,13 @@ def class_data_set(file_path):
         previous_sc = current_sc
     olg_codes.pop(0)
     sc_codes.pop(0)
+
+    # TODO: teacher info moved into config file
+
+    config_file = find_config_file(dir_path)
+    with open(config_file, 'r') as file:
+        config_data = yaml.safe_load(file)
+
 
     teacher_info_sheet = wb["Teacher_Info"]
     teacher_info = {}
