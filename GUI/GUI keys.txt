@@ -1,0 +1,19 @@
+MAIN LAYOUT
+    --- ZONE 1 ---
+        "-CREATE-CLASS-" (button)
+        "-OPEN-CLASS-" (button)
+        "-OPEN-STANDARDS-" (button)
+
+    --- ZONE 2 ---
+        see section: CREATE NEW CLASS
+        see section: WORKING WITH CLASSES
+
+    --- ZONE 3 ---
+        "-ROOT_DIRECTORY-" (input field)
+        "-BROWSE_DIRECTORIES-" (button)
+
+    --- ZONE 4 ---
+        "-SAVE_SETTINGS-" (button)
+        "-QUIT-" (button)
+
+

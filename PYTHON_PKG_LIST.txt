@@ -12,3 +12,5 @@ The following python packages have been installed:
 
 - yaml: pip3 install PyYAML
 - makepass: pip3 install makepass
+
+-pySimpleGUI: pip3 install pySimpleGUI
