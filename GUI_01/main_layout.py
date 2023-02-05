@@ -55,7 +55,7 @@ def main_layout(selection=""):
     # --- LAYOUT ELEMENTS -------------------------------------------------------------------------------------------------
 
     # ----- ZONE 1 (header) -----
-    header_layout = [[Sg.Image("/Users/brian/PycharmProjects/pythonProject/GUI_LAYOUTS_IMAGES/long_header.png")],
+    header_layout = [[Sg.Image("GUI_01/GUI_images/long_header.png")],
                [Sg.Button(button_text="Create New Class",
                           key="-CREATE_CLASS-", tooltip="create a new spreading sheet",
                           size=button_size, font=button_font, pad=button_padding, button_color=button_colour),

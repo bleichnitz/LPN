@@ -5,9 +5,10 @@
       <sourceFolder url="file://$MODULE_DIR$/CREATE_DOCS" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/DATA_PROCESSING" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/CONFIGURATION" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/GUI" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/GUI/GUI_images" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/GUI_01/GUI_images" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/GUI_02" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/venv" />
+      <excludeFolder url="file://$MODULE_DIR$/GUI_01" />
     </content>
     <orderEntry type="jdk" jdkName="Python 3.11 (LPN)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />

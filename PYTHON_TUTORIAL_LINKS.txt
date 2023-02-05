@@ -1,2 +1,5 @@
 Encode / Decode Strings (e.g. pswds):
     -https://www.geeksforgeeks.org/how-to-encrypt-and-decrypt-strings-in-python/
+
+Multiple Windows in PySimpleGUI:
+ -https://stackoverflow.com/questions/59500558/how-to-display-different-layouts-based-on-button-clicks-in-pysimple-gui-persis
